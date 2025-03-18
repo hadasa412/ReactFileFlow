@@ -1,0 +1,52 @@
+/* רקע כללי */
+body {
+    background-color: #232f3e; /* כחול כהה כמו ב-AWS */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* עיצוב הכפתור */
+  button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    background-color: white; /* הכפתור עצמו לבן */
+    border: none;
+    color: #232f3e; /* טקסט כחול כהה */
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* פס זוהר דינמי */
+  button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      rgba(255, 140, 0, 0.6) 0%,   /* כתום - צד שמאל */
+      rgba(255, 70, 70, 0.7) 50%,  /* ורוד אדום - מרכז */
+      rgba(70, 150, 255, 0.6) 100% /* תכלכל - צד ימין */
+    );
+    transition: left 0.4s ease-in-out;
+  }
+  
+  /* אפקט ה-Hover */
+  button:hover::before {
+    left: 100%;
+  }
+  
+  /* אנימציית לחיצה */
+  button:active {
+    transform: scale(0.98);
+  }
+  
