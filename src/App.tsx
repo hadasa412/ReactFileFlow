@@ -14,8 +14,9 @@ import DocumentDetails from "./pages/DocumentDetails";
 import Dashboard from "./components/Dashboard"; 
 import Header from "./components/Header"; 
 import Settings from "./components/Settings";
+import LogoNeonStyle from "./components/logo-neon-style";
 
-const drawerWidth = 0; 
+const drawerWidth = 240; 
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -72,8 +73,11 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
+{/* <LogoNeonStyle/> */}
+
         <Box sx={{ display: 'flex' }} dir="rtl">
           <Header
+            drawerWidth={drawerWidth}
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             userName={userName} 

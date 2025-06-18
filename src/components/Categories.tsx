@@ -111,6 +111,37 @@ const Categories = () => {
     }
   };
 
+  // 🔧 פונקציה מתוקנת לטיפול ב-Signed URLs
+  const handleViewDocument = async (doc: any) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("אין טוקן התחברות. אנא התחבר מחדש.");
+        return;
+      }
+  
+      console.log("🔧 Requesting download URL for filePath:", doc.filePath);
+  
+      // 🔧 שימוש ב-query parameter במקום path parameter
+      const response = await apiClient.get(`/api/documents/download-url?fileName=${encodeURIComponent(doc.filePath)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      console.log("🔧 Response:", response.data);
+  
+      const downloadUrl = response.data.downloadUrl;
+      if (downloadUrl) {
+        window.open(downloadUrl, "_blank");
+      } else {
+        setError("לא התקבל קישור תקין לקובץ");
+      }
+    } catch (err: any) {
+      console.error("🔧 Error getting download URL:", err);
+      console.error("🔧 Error details:", err.response?.data);
+      setError("שגיאה בקבלת הקישור לקובץ");
+    }
+  };
+
   const allDocuments = categories.flatMap((category) =>
     category.documents.map((doc) => ({
       ...doc,
@@ -194,20 +225,22 @@ const Categories = () => {
                 קטגוריה: {doc.categoryName} | סוג: {doc.contentType} | הועלה:{" "}
                 {new Date(doc.uploadedAt).toLocaleString()}
               </Typography>
-              <a
-                href={`https://user-files-fileflow.s3.amazonaws.com/${doc.filePath}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecoration: "underline",
-                  color: "#00796b",
-                  fontWeight: "bold",
-                  display: "block",
-                  marginTop: 8,
+
+              {/* 🔧 כפתור מתוקן עם filePath */}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleViewDocument(doc)}
+                sx={{
+                  backgroundColor: "#00796b",
+                  "&:hover": {
+                    backgroundColor: "#004d40",
+                  },
+                  mt: 1
                 }}
               >
                 צפייה / הורדה
-              </a>
+              </Button>
             </CardContent>
           </Card>
         ))
@@ -216,4 +249,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Categories
