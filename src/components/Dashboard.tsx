@@ -93,7 +93,7 @@ const Dashboard = () => {
       console.log("🔧 Requesting download URL for filePath:", filePath);
   
       // 🔧 שימוש ב-query parameter במקום path parameter
-      const response = await apiClientENV.get(`/api/documents/download-url?fileName=${encodeURIComponent(filePath)}`, {
+      const response = await apiClient.get(`/api/documents/download-url?fileName=${encodeURIComponent(filePath)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
