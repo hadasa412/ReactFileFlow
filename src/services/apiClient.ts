@@ -1,7 +1,5 @@
 import axios from 'axios';
-// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5164';
 const API_BASE_URL =  import.meta.env.VITE_API_URL || 'http://localhost:5164';
-const API_ENV_URL=import.meta.env.VITE_API_URL;
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -18,7 +16,7 @@ const apiClientEVN = axios.create({
 });
 export const getCategories = async (token: string) => {
   try {
-    const response = await apiClientEVN.get('/api/categories', {
+    const response = await apiClient.get('/api/categories', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
