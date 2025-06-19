@@ -92,7 +92,7 @@ const getDownloadUrl = async (filePath: string): Promise<string | null> => {
     console.log("🔧 Requesting download URL for filePath:", filePath);
 
     // 🔧 שימוש ב-path parameter במקום query parameter
-    const response = await apiClientENV.get(`/api/documents/download-url/${encodeURIComponent(filePath)}`, {
+    const response = await apiClient.get(`/api/documents/download-url/${encodeURIComponent(filePath)}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
 
