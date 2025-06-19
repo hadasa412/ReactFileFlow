@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { FileText, Search, Filter, Eye, Trash2, Calendar, FolderOpen, AlertCircle, BarChart3 } from "lucide-react"
 import apiClient from "../services/apiClient"
-import apiClientENV from "../services/apiClient"
 
 interface Document {
   id: number
@@ -82,31 +81,30 @@ const Dashboard = () => {
   }, [])
 
   // 🔧 פונקציה לקבלת קישור הורדה - מתוקנת
-  const getDownloadUrl = async (filePath: string): Promise<string | null> => {
-    try {
-      const token = localStorage.getItem("token")
-      if (!token) {
-        setError("אין טוקן אימות. אנא התחבר מחדש.")
-        return null
-      }
-  
-      console.log("🔧 Requesting download URL for filePath:", filePath);
-  
-      // 🔧 שימוש ב-query parameter במקום path parameter
-      const response = await apiClient.get(`/api/documents/download-url?fileName=${encodeURIComponent(filePath)}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-
-        
-      console.log("🔧 Response:", response.data);
-      return response.data.downloadUrl
-    } catch (err: any) {
-      console.error("🔧 Failed to get download URL", err)
-      console.error("🔧 Error details:", err.response?.data);
-      setError("שגיאה בקבלת הקישור לקובץ")
+const getDownloadUrl = async (filePath: string): Promise<string | null> => {
+  try {
+    const token = localStorage.getItem("token")
+    if (!token) {
+      setError("אין טוקן אימות. אנא התחבר מחדש.")
       return null
     }
+
+    console.log("🔧 Requesting download URL for filePath:", filePath);
+
+    // 🔧 שימוש ב-path parameter במקום query parameter
+    const response = await apiClientENV.get(`/api/documents/download-url/${encodeURIComponent(filePath)}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    console.log("🔧 Response:", response.data);
+    return response.data.downloadUrl
+  } catch (err: any) {
+    console.error("🔧 Failed to get download URL", err)
+    console.error("🔧 Error details:", err.response?.data);
+    setError("שגיאה בקבלת הקישור לקובץ")
+    return null
   }
+}
   
   // 🔧 פונקציה לטיפול בצפייה במסמך - מתוקנת
   const handleViewDocument = async (doc: Document) => {
