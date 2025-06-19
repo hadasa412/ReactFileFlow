@@ -8,12 +8,7 @@ const apiClient = axios.create({
   },
 });
 
-const apiClientEVN = axios.create({
-  baseURL: API_ENV_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+
 export const getCategories = async (token: string) => {
   try {
     const response = await apiClient.get('/api/categories', {
