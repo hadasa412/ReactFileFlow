@@ -304,20 +304,24 @@ const getDownloadUrl = async (filePath: string): Promise<string | null> => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex gap-2">
-                    <Button 
-                      className="flex-1 bg-teal-600 hover:bg-teal-700"
-                      onClick={() => handleViewDocument(doc)}
-                    >
-                      <Eye className="h-4 w-4 ml-2" />
-                      צפייה
-                    </Button>
-                    <Button variant="destructive" size="sm" onClick={() => deleteDocument(doc.id)} className="px-3">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
+<CardContent className="pt-0">
+  <div className="space-y-2">
+    <Button 
+      className="w-full bg-teal-600 hover:bg-teal-700 text-white"
+      onClick={() => handleViewDocument(doc)}
+    >
+      <Eye className="h-4 w-4 ml-2" />
+      צפייה במסמך
+    </Button>
+    <button 
+      onClick={() => deleteDocument(doc.id)}
+      className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center justify-center gap-2"
+    >
+      <Trash2 className="h-4 w-4" />
+      מחק מסמך
+    </button>
+  </div>
+</CardContent>
               </Card>
             ))}
           </div>
