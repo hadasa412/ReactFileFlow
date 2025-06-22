@@ -8,7 +8,9 @@ import {
   Card,
   CardContent,
   Alert,
+  Divider,
 } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { getUserIdFromToken } from "../tokenUtils";
 import apiClient from "../services/apiClient";
 
@@ -81,6 +83,7 @@ const Categories = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setCategories((prev) => prev.filter((cat) => cat.id !== categoryId));
+      setError(null);
     } catch {
       setError("שגיאה במחיקת הקטגוריה.");
     }
@@ -168,6 +171,7 @@ const Categories = () => {
         </Alert>
       )}
 
+      {/* הוספת קטגוריה חדשה */}
       <Box display="flex" gap={2} alignItems="center" mb={4}>
         <TextField
           label="שם קטגוריה חדשה"
@@ -178,9 +182,62 @@ const Categories = () => {
           sx={{ backgroundColor: "white", borderRadius: 1 }}
         />
         <Button variant="contained" color="primary" onClick={handleAddCategory}>
-          הוסף
+          הוסף קטגוריה
         </Button>
       </Box>
+
+      {/* ניהול קטגוריות קיימות */}
+      <Box mb={4}>
+        <Typography variant="h5" gutterBottom color="primary">
+          קטגוריות קיימות
+        </Typography>
+        
+        {categories.length === 0 ? (
+          <Typography color="text.secondary" align="center" sx={{ fontSize: "1.1rem", py: 2 }}>
+            אין קטגוריות במערכת
+          </Typography>
+        ) : (
+          <Box display="flex" flexDirection="column" gap={2}>
+            {categories.map((category) => (
+              <Card key={category.id} sx={{ boxShadow: 2 }}>
+                <CardContent>
+                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                        {category.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {category.documents?.length || 0} מסמכים
+                      </Typography>
+                    </Box>
+                    
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => handleDeleteCategory(category.id)}
+                      startIcon={<DeleteIcon />}
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#ffebee',
+                        }
+                      }}
+                    >
+                      מחק קטגוריה
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
+        )}
+      </Box>
+
+      <Divider sx={{ my: 4 }} />
+
+      {/* צפייה במסמכים */}
+      <Typography variant="h5" gutterBottom color="primary">
+        צפייה במסמכים
+      </Typography>
 
       <Box mb={2}>
         <TextField
@@ -249,4 +306,4 @@ const Categories = () => {
   );
 };
 
-export default Categories
+export default Categories;
