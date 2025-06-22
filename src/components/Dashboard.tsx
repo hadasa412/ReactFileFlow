@@ -112,26 +112,17 @@ const response = await apiClient.get(`/api/documents/download-url?fileName=${enc
 }
 const handleDownloadDocument = async (doc: Document) => {
   try {
-    // השתמש באותה פונקציה כמו צפייה
     const downloadUrl = await getDownloadUrl(doc.filePath)
     if (downloadUrl) {
-      // השתמש ב-fetch להורדה
-      const response = await fetch(downloadUrl)
-      const blob = await response.blob()
-      
-      // יצור URL זמני לblob
-      const blobUrl = URL.createObjectURL(blob)
-      
+      // שיטה פשוטה - הוסף download attribute
       const link = document.createElement('a')
-      link.href = blobUrl
-      link.download = doc.title
+      link.href = downloadUrl
+      link.download = doc.title // זה אומר לדפדפן להוריד ולא לפתוח
+      link.target = '_blank' // פתח בטאב חדש אם הדאונלוד נכשל
       link.style.display = 'none'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
-      // נקה את ה-URL הזמני
-      URL.revokeObjectURL(blobUrl)
     }
   } catch (error) {
     console.error('Error downloading file:', error)
