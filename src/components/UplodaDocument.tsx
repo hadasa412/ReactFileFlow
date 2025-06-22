@@ -39,7 +39,7 @@ const UploadDocument: React.FC = () => {
     if (!token) return
 
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/documents`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/category`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setCategories(response.data)
