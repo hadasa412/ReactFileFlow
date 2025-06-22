@@ -112,18 +112,32 @@ const response = await apiClient.get(`/api/documents/download-url?fileName=${enc
 }
 const handleDownloadDocument = async (doc: Document) => {
   try {
-    const downloadUrl = await getDownloadUrl(doc.filePath)
-    if (downloadUrl) {
-      // שיטה פשוטה - הוסף download attribute
-      const link = document.createElement('a')
-      link.href = downloadUrl
-      link.download = doc.title // זה אומר לדפדפן להוריד ולא לפתוח
-      link.target = '_blank' // פתח בטאב חדש אם הדאונלוד נכשל
-      link.style.display = 'none'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+    const token = localStorage.getItem("token")
+    if (!token) {
+      setError("אין טוקן אימות. אנא התחבר מחדש.")
+      return
     }
+
+    // השתמש ב-endpoint חדש
+    const response = await apiClient.get(`/api/documents/download/${doc.id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'blob' // חשוב!
+    })
+
+    // יצור URL לblob
+    const blob = new Blob([response.data])
+    const downloadUrl = URL.createObjectURL(blob)
+    
+    const link = document.createElement('a')
+    link.href = downloadUrl
+    link.download = doc.title
+    link.style.display = 'none'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    // נקה
+    URL.revokeObjectURL(downloadUrl)
   } catch (error) {
     console.error('Error downloading file:', error)
     setError('שגיאה בהורדת הקובץ')
