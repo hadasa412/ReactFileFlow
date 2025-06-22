@@ -110,18 +110,28 @@ const response = await apiClient.get(`/api/documents/download-url?fileName=${enc
     return null
   }
 }
-  const handleDownloadDocument = async (doc: Document) => {
+const handleDownloadDocument = async (doc: Document) => {
   try {
+    // השתמש באותה פונקציה כמו צפייה
     const downloadUrl = await getDownloadUrl(doc.filePath)
     if (downloadUrl) {
-      // יצירת element זמני להורדה
+      // השתמש ב-fetch להורדה
+      const response = await fetch(downloadUrl)
+      const blob = await response.blob()
+      
+      // יצור URL זמני לblob
+      const blobUrl = URL.createObjectURL(blob)
+      
       const link = document.createElement('a')
-      link.href = downloadUrl
-      link.download = doc.title // השם שיישמר במחשב
+      link.href = blobUrl
+      link.download = doc.title
       link.style.display = 'none'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+      
+      // נקה את ה-URL הזמני
+      URL.revokeObjectURL(blobUrl)
     }
   } catch (error) {
     console.error('Error downloading file:', error)
