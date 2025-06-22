@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { FileText, Search, Filter, Eye, Trash2, Calendar, FolderOpen, AlertCircle, BarChart3 } from "lucide-react"
+import { FileText, Search, Filter, Eye, Trash2,Download, Calendar, FolderOpen, AlertCircle, BarChart3 } from "lucide-react"
 import apiClient from "../services/apiClient"
 
 interface Document {
@@ -105,7 +105,24 @@ const response = await apiClient.get(`/api/documents/download-url/${encodeURICom
     return null
   }
 }
-  
+  const handleDownloadDocument = async (doc: Document) => {
+  try {
+    const downloadUrl = await getDownloadUrl(doc.filePath)
+    if (downloadUrl) {
+      // יצירת element זמני להורדה
+      const link = document.createElement('a')
+      link.href = downloadUrl
+      link.download = doc.title // השם שיישמר במחשב
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  } catch (error) {
+    console.error('Error downloading file:', error)
+    setError('שגיאה בהורדת הקובץ')
+  }
+}
   // 🔧 פונקציה לטיפול בצפייה במסמך - מתוקנת
   const handleViewDocument = async (doc: Document) => {
     const downloadUrl = await getDownloadUrl(doc.filePath) // שימוש ב-filePath במקום title
@@ -312,6 +329,13 @@ const response = await apiClient.get(`/api/documents/download-url/${encodeURICom
     >
       <Eye className="h-4 w-4 ml-2" />
       צפייה במסמך
+    </Button>
+    <Button 
+      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+      onClick={() => handleDownloadDocument(doc)}
+    >
+      <Download className="h-4 w-4 ml-2" />
+      הורד מסמך
     </Button>
     <button 
       onClick={() => deleteDocument(doc.id)}
