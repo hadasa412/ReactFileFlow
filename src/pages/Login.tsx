@@ -8,13 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Button,
-  Input,
-  Label,
-  Alert,
-  AlertDescription,
-} from '@/components/ui';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, CheckCircle, LogIn } from 'lucide-react';
 import { Container } from '@mui/material';
 
