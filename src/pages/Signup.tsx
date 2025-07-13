@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, CheckCircle, UserPlus } from "lucide-react"
+import { AlertCircle, UserPlus } from "lucide-react"
 
 interface DecodedToken {
   exp: number
@@ -79,24 +79,30 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6">
-      <Card className="w-full max-w-md shadow-lg border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6 flex items-center justify-center">
+      <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="p-3 bg-teal-100 dark:bg-teal-900 rounded-full">
-              <UserPlus className="h-8 w-8 text-teal-600 dark:text-teal-400" />
+              <UserPlus className="h-6 w-6 text-teal-600 dark:text-teal-400" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+          <CardTitle className="text-2xl font-bold text-slate-800 dark:text-white">
             הרשמה למערכת
           </CardTitle>
-          <CardDescription className="text-slate-600 dark:text-slate-400">
+          <CardDescription className="text-slate-600 dark:text-slate-300 text-sm">
             צור חשבון חדש כדי להתחיל להשתמש במערכת
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          {error && (
+            <Alert variant="destructive" className="flex gap-2 items-center">
+              <AlertCircle className="h-4 w-4 text-red-600" />
+              <AlertDescription className="text-red-800 dark:text-red-200">{error}</AlertDescription>
+            </Alert>
+          )}
           <form onSubmit={handleSignup} className="space-y-4">
-            <div>
+            <div className="space-y-1">
               <Label htmlFor="username">שם משתמש</Label>
               <Input
                 id="username"
@@ -106,7 +112,7 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
                 required
               />
             </div>
-            <div>
+            <div className="space-y-1">
               <Label htmlFor="email">אימייל</Label>
               <Input
                 id="email"
@@ -116,7 +122,7 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
                 required
               />
             </div>
-            <div>
+            <div className="space-y-1">
               <Label htmlFor="password">סיסמה</Label>
               <Input
                 id="password"
@@ -126,7 +132,7 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
                 required
               />
             </div>
-            <div>
+            <div className="space-y-1">
               <Label htmlFor="confirmPassword">אימות סיסמה</Label>
               <Input
                 id="confirmPassword"
@@ -138,19 +144,11 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
             </div>
             <Button
               type="submit"
-              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold text-lg py-2 rounded-xl"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-xl transition"
             >
               הירשם
             </Button>
           </form>
-          {error && (
-            <Alert className="mt-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription className="text-red-800 dark:text-red-200">
-                {error}
-              </AlertDescription>
-            </Alert>
-          )}
         </CardContent>
       </Card>
     </div>
