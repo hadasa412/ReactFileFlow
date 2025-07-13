@@ -83,8 +83,8 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
       <Card className="w-full max-w-md shadow-lg border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="p-3 bg-green-100 dark:bg-green-900 rounded-full">
-              <UserPlus className="h-8 w-8 text-green-600 dark:text-green-400" />
+            <div className="p-3 bg-teal-100 dark:bg-teal-900 rounded-full">
+              <UserPlus className="h-8 w-8 text-teal-600 dark:text-teal-400" />
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-slate-800 dark:text-slate-100">
@@ -138,7 +138,7 @@ const Signup = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) =>
             </div>
             <Button
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-lg py-2 rounded-xl"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold text-lg py-2 rounded-xl"
             >
               הירשם
             </Button>
