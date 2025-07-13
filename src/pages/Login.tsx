@@ -1,24 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-  Alert,
-  Paper,
-} from '@mui/material';
 import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Button,
+  Input,
+  Label,
+  Alert,
+  AlertDescription,
+} from '@/components/ui';
+import { AlertCircle, CheckCircle, LogIn } from 'lucide-react';
+import { Container } from '@mui/material';
 
 interface DecodedToken {
-  exp: number; 
-  iss: string; 
-  aud: string; 
-  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string; 
-  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string; 
+  exp: number;
+  iss: string;
+  aud: string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"?: string;
-  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"?: string; 
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"?: string;
 }
 
 const Login = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) => void }) => {
@@ -44,94 +51,64 @@ const Login = ({ setIsAuthenticated }: { setIsAuthenticated: (auth: boolean) => 
 
       const data = await response.json();
       const token = data.token;
-
-      console.log("Received Token:", token);
       const decodedToken = jwtDecode<DecodedToken>(token);
-      console.log("Decoded Token:", decodedToken);
-
       const userName = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-      const userEmail = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"] || email; // השתמש במייל מהטוקן, אם לא קיים אז מהשדה שהוזן
+      const userEmail = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"] || email;
 
       if (!userName) {
-        console.error("שם משתמש (ClaimTypes.Name) לא נמצא בטוקן המפוענח.");
         setError("שם משתמש לא נמצא בפרטי התחברות.");
         return;
       }
 
       localStorage.setItem('token', token);
-      localStorage.setItem('userName', userName); 
-      localStorage.setItem('userEmail', userEmail); 
+      localStorage.setItem('userName', userName);
+      localStorage.setItem('userEmail', userEmail);
 
       setIsAuthenticated(true);
-      navigate('/dashboard'); 
+      navigate('/dashboard');
     } catch (err: any) {
       setError(`התחברות נכשלה: ${err.message || 'אירעה שגיאה לא ידועה'}`);
     }
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 8 }}>
-      <Paper elevation={3} sx={{ p: 4, direction: 'rtl', borderRadius: 2 }}>
-        <Typography variant="h5" align="center" gutterBottom color="#00796b">
-          התחברות למערכת
-        </Typography>
-
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-
-        <form onSubmit={handleLogin}>
-          <TextField
-            type="email"
-            label="אימייל"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            required
-            sx={{
-              mb: 2,
-              '& label.Mui-focused': { color: '#00796b' },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderColor: '#00796b' },
-                '&:hover fieldset': { borderColor: '#004d40' },
-                '&.Mui-focused fieldset': { borderColor: '#004d40' },
-              },
-            }}
-          />
-          <TextField
-            type="password"
-            label="סיסמה"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            required
-            sx={{
-              mb: 3,
-              '& label.Mui-focused': { color: '#00796b' },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderColor: '#00796b' },
-                '&:hover fieldset': { borderColor: '#004d40' },
-                '&.Mui-focused fieldset': { borderColor: '#004d40' },
-              },
-            }}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              backgroundColor: '#00796b',
-              fontWeight: 'bold',
-              '&:hover': { backgroundColor: '#004d40' },
-            }}
-          >
-            התחבר
-          </Button>
-        </form>
-      </Paper>
-    </Container>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6 flex items-center justify-center">
+      <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-teal-100 dark:bg-teal-900 rounded-full">
+              <LogIn className="h-6 w-6 text-teal-600 dark:text-teal-300" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl font-bold text-slate-800 dark:text-white">התחברות למערכת</CardTitle>
+          <CardDescription className="text-slate-600 dark:text-slate-300 text-sm">נא להזין את פרטי ההתחברות</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {error && (
+            <Alert variant="destructive" className="flex gap-2 items-center">
+              <AlertCircle className="h-4 w-4 text-red-600" />
+              <AlertDescription className="text-red-800 dark:text-red-200">{error}</AlertDescription>
+            </Alert>
+          )}
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-1">
+              <Label htmlFor="email">אימייל</Label>
+              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="password">סיסמה</Label>
+              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
+            <Button
+              type="submit"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-xl transition"
+            >
+              התחבר
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
