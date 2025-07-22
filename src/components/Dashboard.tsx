@@ -90,12 +90,7 @@ const getDownloadUrl = async (filePath: string): Promise<string | null> => {
       return null
     }
 
-<<<<<<< HEAD
-=======
-    console.log("🔧 Requesting download URL for filePath:", filePath);
 
-    
->>>>>>> 7d276839c2d2d7c53517b2d32bf530ec959addc5
 const response = await apiClient.get(`/api/documents/download-url?fileName=${encodeURIComponent(filePath)}`, {
   headers: { Authorization: `Bearer ${token}` },
 })
