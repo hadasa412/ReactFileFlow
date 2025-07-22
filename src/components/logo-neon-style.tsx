@@ -33,13 +33,9 @@ export const LogoNeonStyle = ({ size = "md", showSubtitle = true }: LogoNeonStyl
 
   return (
     <div className={`flex items-center ${sizes[size].container}`}>
-      {/* Icon with Neon Effect */}
       <div className={`${sizes[size].iconContainer} relative flex items-center justify-center`}>
-        {/* Outer Glow */}
         <div className="absolute inset-0 bg-blue-500/30 rounded-lg blur-md animate-pulse"></div>
-        {/* Inner Glow */}
         <div className="absolute inset-0 bg-purple-500/20 rounded-lg blur-sm"></div>
-        {/* Icon Container */}
         <div className="relative bg-slate-900 rounded-lg border border-blue-400/50 flex items-center justify-center w-full h-full">
           <FileText
             className={`${sizes[size].icon} text-blue-400`}
@@ -50,9 +46,7 @@ export const LogoNeonStyle = ({ size = "md", showSubtitle = true }: LogoNeonStyl
         </div>
       </div>
 
-      {/* Text */}
       <div className="flex flex-col">
-        {/* Main Title with Neon Effect */}
         <h1
           className={`${sizes[size].title} font-bold text-white tracking-wide`}
           style={{
@@ -67,7 +61,6 @@ export const LogoNeonStyle = ({ size = "md", showSubtitle = true }: LogoNeonStyl
           FileFlow
         </h1>
 
-        {/* Subtitle */}
         {showSubtitle && (
           <p
             className={`${sizes[size].subtitle} text-slate-300 tracking-wider`}
@@ -98,20 +91,15 @@ export const LogoNeonHero = () => {
     <div className="text-center space-y-4">
       <div className="flex justify-center">
         <div className="relative">
-          {/* Background Glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-600/20 rounded-2xl blur-2xl scale-110"></div>
 
-          {/* Logo Container */}
           <div className="relative bg-slate-900/90 backdrop-blur-sm p-8 rounded-2xl border border-blue-400/30">
             <div className="flex items-center gap-6">
-              {/* Large Icon */}
               <div className="h-20 w-20 relative flex items-center justify-center">
-                {/* Multiple Glow Layers */}
                 <div className="absolute inset-0 bg-blue-500/40 rounded-xl blur-lg animate-pulse"></div>
                 <div className="absolute inset-0 bg-purple-500/30 rounded-xl blur-md"></div>
                 <div className="absolute inset-0 bg-cyan-500/20 rounded-xl blur-sm"></div>
 
-                {/* Icon Container */}
                 <div className="relative bg-slate-900 rounded-xl border-2 border-blue-400/60 flex items-center justify-center w-full h-full">
                   <FileText
                     className="h-10 w-10 text-blue-400"
@@ -126,7 +114,6 @@ export const LogoNeonHero = () => {
                 </div>
               </div>
 
-              {/* Large Text */}
               <div className="flex flex-col">
                 <h1
                   className="text-5xl font-bold text-white tracking-wide"
