@@ -80,7 +80,6 @@ const Dashboard = () => {
     fetchData()
   }, [])
 
-  // 🔧 פונקציה לקבלת קישור הורדה - מתוקנת
 const getDownloadUrl = async (filePath: string): Promise<string | null> => {
   try {
     const token = localStorage.getItem("token")
@@ -91,10 +90,7 @@ const getDownloadUrl = async (filePath: string): Promise<string | null> => {
 
     console.log("🔧 Requesting download URL for filePath:", filePath);
 
-    // 🔧 שימוש ב-path parameter במקום query parameter
-// const response = await apiClient.get(`/api/documents/download-url/${encodeURIComponent(filePath)}`, {
-//   headers: { Authorization: `Bearer ${token}` },
-// })
+    
 const response = await apiClient.get(`/api/documents/download-url?fileName=${encodeURIComponent(filePath)}`, {
   headers: { Authorization: `Bearer ${token}` },
 })
@@ -118,13 +114,11 @@ const handleDownloadDocument = async (doc: Document) => {
       return
     }
 
-    // השתמש ב-endpoint חדש
     const response = await apiClient.get(`/api/documents/download/${doc.id}`, {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'blob' // חשוב!
     })
 
-    // יצור URL לblob
     const blob = new Blob([response.data])
     const downloadUrl = URL.createObjectURL(blob)
     
@@ -136,14 +130,12 @@ const handleDownloadDocument = async (doc: Document) => {
     link.click()
     document.body.removeChild(link)
     
-    // נקה
     URL.revokeObjectURL(downloadUrl)
   } catch (error) {
     console.error('Error downloading file:', error)
     setError('שגיאה בהורדת הקובץ')
   }
 }
-  // 🔧 פונקציה לטיפול בצפייה במסמך - מתוקנת
   const handleViewDocument = async (doc: Document) => {
     const downloadUrl = await getDownloadUrl(doc.filePath) // שימוש ב-filePath במקום title
     if (downloadUrl) {
@@ -195,7 +187,6 @@ const handleDownloadDocument = async (doc: Document) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto p-0 max-w-7xl">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-3 bg-teal-100 dark:bg-teal-900 rounded-full">
@@ -207,7 +198,6 @@ const handleDownloadDocument = async (doc: Document) => {
             </div>
           </div>
 
-          {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white">
               <CardContent className="p-6">
@@ -254,7 +244,6 @@ const handleDownloadDocument = async (doc: Document) => {
           </Alert>
         )}
 
-        {/* Filters */}
         <Card className="mb-6 border-0 shadow-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -294,7 +283,6 @@ const handleDownloadDocument = async (doc: Document) => {
           </CardContent>
         </Card>
 
-        {/* Documents Grid */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
