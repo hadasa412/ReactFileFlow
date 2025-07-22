@@ -114,7 +114,7 @@ const Categories = () => {
     }
   };
 
-  // 🔧 פונקציה מתוקנת לטיפול ב-Signed URLs
+
   const handleViewDocument = async (doc: any) => {
     try {
       const token = localStorage.getItem("token");
@@ -123,14 +123,9 @@ const Categories = () => {
         return;
       }
   
-      console.log("🔧 Requesting download URL for filePath:", doc.filePath);
-  
-      // 🔧 שימוש ב-query parameter במקום path parameter
       const response = await apiClient.get(`/api/documents/download-url?fileName=${encodeURIComponent(doc.filePath)}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
-      console.log("🔧 Response:", response.data);
   
       const downloadUrl = response.data.downloadUrl;
       if (downloadUrl) {
@@ -171,7 +166,6 @@ const Categories = () => {
         </Alert>
       )}
 
-      {/* הוספת קטגוריה חדשה */}
       <Box display="flex" gap={2} alignItems="center" mb={4}>
         <TextField
           label="שם קטגוריה חדשה"
@@ -185,8 +179,7 @@ const Categories = () => {
           הוסף קטגוריה
         </Button>
       </Box>
-
-      {/* ניהול קטגוריות קיימות */}
+    
       <Box mb={4}>
         <Typography variant="h5" gutterBottom color="primary">
           קטגוריות קיימות
@@ -234,7 +227,6 @@ const Categories = () => {
 
       <Divider sx={{ my: 4 }} />
 
-      {/* צפייה במסמכים */}
       <Typography variant="h5" gutterBottom color="primary">
         צפייה במסמכים
       </Typography>
@@ -283,7 +275,6 @@ const Categories = () => {
                 {new Date(doc.uploadedAt).toLocaleString()}
               </Typography>
 
-              {/* 🔧 כפתור מתוקן עם filePath */}
               <Button
                 variant="contained"
                 color="primary"
