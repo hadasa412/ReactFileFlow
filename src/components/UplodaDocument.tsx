@@ -173,7 +173,6 @@ const UploadDocument: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6">
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
@@ -184,7 +183,6 @@ const UploadDocument: React.FC = () => {
           <p className="text-slate-600 dark:text-slate-400 text-lg">העלה מסמכים חדשים למערכת בקלות</p>
         </div>
 
-        {/* File Upload Card */}
         <Card className="border-0 shadow-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -222,7 +220,6 @@ const UploadDocument: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Category Selection */}
         <Card className="border-0 shadow-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -269,7 +266,6 @@ const UploadDocument: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* AI Tagging */}
         <Card className="border-0 shadow-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -291,7 +287,6 @@ const UploadDocument: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Upload Progress */}
         {isUploading && (
           <Card className="border-0 shadow-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
             <CardContent className="p-6">
@@ -306,7 +301,6 @@ const UploadDocument: React.FC = () => {
           </Card>
         )}
 
-        {/* Upload Button */}
         <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white">
           <CardContent className="p-6">
             <Button
@@ -329,7 +323,6 @@ const UploadDocument: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Tags Display */}
         {tags.length > 0 && (
           <Card className="border-0 shadow-lg bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
             <CardHeader>
@@ -354,7 +347,6 @@ const UploadDocument: React.FC = () => {
           </Card>
         )}
 
-        {/* Message Alert */}
         {message && (
           <Alert
             className={`border-0 shadow-lg ${
